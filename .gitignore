@@ -1,0 +1,20 @@
+# IntelliJ
+.idea
+*.iml
+
+# Gradle
+.gradle
+gradle
+gradle.properties
+
+# Android Studio
+local.properties
+gradlew*
+
+# Build Artifacts
+build
+gen
+out
+
+# Mac
+.DS_Store
