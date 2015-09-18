@@ -16,5 +16,71 @@
 
 package com.github.xizzhu.simpletooltip;
 
+import android.graphics.Color;
+
 public class ToolTip {
+    private final CharSequence text;
+    private final int textColor;
+    private final float textSize;
+
+    private ToolTip(CharSequence text, int textColor, float textSize) {
+        this.text = text;
+        this.textColor = textColor;
+        this.textSize = textSize;
+    }
+
+    public CharSequence getText() {
+        return text;
+    }
+
+    public int getTextColor() {
+        return textColor;
+    }
+
+    public float getTextSize() {
+        return textSize;
+    }
+
+    public static class Builder {
+        private CharSequence text;
+        private int textColor = Color.BLACK;
+        private float textSize = 13.0F;
+
+        /**
+         * Creates a new builder.
+         */
+        public Builder() {
+        }
+
+        /**
+         * Sets the text of the tool tip.
+         */
+        public Builder withText(CharSequence text) {
+            this.text = text;
+            return this;
+        }
+
+        /**
+         * Sets the text color for the tool tip. The default color is black.
+         */
+        public Builder withTextColor(int textColor) {
+            this.textColor = textColor;
+            return this;
+        }
+
+        /**
+         * Sets the text size in pixel for the tool tip. The default size is 13.
+         */
+        public Builder withTextSize(float textSize) {
+            this.textSize = textSize;
+            return this;
+        }
+
+        /**
+         * Creates a tool tip.
+         */
+        public ToolTip build() {
+            return new ToolTip(text, textColor, textSize);
+        }
+    }
 }
