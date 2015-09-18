@@ -26,10 +26,18 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class ToolTipView extends LinearLayout implements ViewTreeObserver.OnPreDrawListener {
+import java.lang.ref.WeakReference;
+
+public class ToolTipView extends LinearLayout implements ViewTreeObserver.OnPreDrawListener,
+        View.OnClickListener {
+    public interface OnToolTipClickedListener {
+        void onToolTipClicked(ToolTipView toolTipView);
+    }
+
     private final View anchorView;
     private final ImageView arrowUp;
     private final ImageView arrowDown;
+    private WeakReference<OnToolTipClickedListener> listener;
 
     private ToolTipView(Context context, View anchorView, ToolTip toolTip) {
         super(context);
@@ -38,6 +46,7 @@ public class ToolTipView extends LinearLayout implements ViewTreeObserver.OnPreD
 
         setOrientation(VERTICAL);
         inflate(context, R.layout.tool_tip, this);
+        setOnClickListener(this);
 
         TextView text = (TextView) findViewById(R.id.text);
         text.setPadding(toolTip.getLeftPadding(), toolTip.getTopPadding(),
@@ -55,6 +64,14 @@ public class ToolTipView extends LinearLayout implements ViewTreeObserver.OnPreD
         arrowDown.setColorFilter(backgroundColor, PorterDuff.Mode.MULTIPLY);
     }
 
+    public void setOnToolTipClickedListener(OnToolTipClickedListener listener) {
+        if (listener == null) {
+            this.listener = null;
+        } else {
+            this.listener = new WeakReference<>(listener);
+        }
+    }
+
     public void show() {
         ViewGroup parentOfAnchorView = (ViewGroup) anchorView.getParent();
 
@@ -63,6 +80,10 @@ public class ToolTipView extends LinearLayout implements ViewTreeObserver.OnPreD
         parentOfAnchorView.addView(this, layoutParams);
 
         getViewTreeObserver().addOnPreDrawListener(this);
+    }
+
+    public void remove() {
+        ((ViewGroup) getParent()).removeView(this);
     }
 
     @Override
@@ -110,6 +131,16 @@ public class ToolTipView extends LinearLayout implements ViewTreeObserver.OnPreD
         arrow.setLayoutParams(layoutParams);
 
         return false;
+    }
+
+    @Override
+    public void onClick(View v) {
+        OnToolTipClickedListener listener = this.listener != null ? this.listener.get() : null;
+        if (listener != null) {
+            listener.onToolTipClicked(this);
+        }
+
+        remove();
     }
 
     public static class Builder {

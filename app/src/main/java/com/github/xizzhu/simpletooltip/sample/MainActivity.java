@@ -63,8 +63,10 @@ public class MainActivity extends Activity {
         });
     }
 
-    private void showToolTipView(View anchorView, CharSequence text, int backgroundColor) {
+    private void showToolTipView(final View anchorView, CharSequence text, int backgroundColor) {
         if (anchorView.getTag() != null) {
+            ((ToolTipView) anchorView.getTag()).remove();
+            anchorView.setTag(null);
             return;
         }
 
@@ -85,5 +87,14 @@ public class MainActivity extends Activity {
                 .build();
         toolTipView.show();
         anchorView.setTag(toolTipView);
+
+        ToolTipView.OnToolTipClickedListener listener = new ToolTipView.OnToolTipClickedListener() {
+            @Override
+            public void onToolTipClicked(ToolTipView toolTipView) {
+                anchorView.setTag(null);
+            }
+        };
+        toolTipView.setOnToolTipClickedListener(listener);
+        toolTipView.setTag(listener); // prevent it from being GC'ed
     }
 }
