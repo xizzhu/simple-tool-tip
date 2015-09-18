@@ -16,11 +16,16 @@
 
 package com.github.xizzhu.simpletooltip;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.PorterDuff;
+import android.os.Build;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -28,6 +33,7 @@ import android.widget.TextView;
 
 import java.lang.ref.WeakReference;
 
+@SuppressLint("ViewConstructor")
 public class ToolTipView extends LinearLayout implements ViewTreeObserver.OnPreDrawListener,
         View.OnClickListener {
     public interface OnToolTipClickedListener {
@@ -93,7 +99,20 @@ public class ToolTipView extends LinearLayout implements ViewTreeObserver.OnPreD
      * Removes the tool tip view from the view hierarchy.
      */
     public void remove() {
-        ((ViewGroup) getParent()).removeView(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
+            animate().setDuration(300L).alpha(0.0F).scaleX(0.0F).scaleY(0.0F)
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            ViewParent parent = getParent();
+                            if (parent != null) {
+                                ((ViewGroup) parent).removeView(ToolTipView.this);
+                            }
+                        }
+                    });
+        } else {
+            // TODO animation for old devices?
+        }
     }
 
     @Override
@@ -115,16 +134,14 @@ public class ToolTipView extends LinearLayout implements ViewTreeObserver.OnPreD
 
         // if the space below the anchor view is not enough, we show the tool tip above the anchor view
         // otherwise, show it below the anchor view
-        ImageView arrow;
-        if (parent.getHeight() < anchorTop + anchorHeight + height) {
+        boolean showAboveAnchor = parent.getHeight() < anchorTop + anchorHeight + height;
+        if (showAboveAnchor) {
             layoutParams.topMargin = anchorTop - height + arrowDown.getHeight();
             arrowUp.setVisibility(View.GONE);
             arrowDown.setVisibility(View.VISIBLE);
-            arrow = arrowDown;
         } else {
             layoutParams.topMargin = anchorTop + anchorHeight;
             arrowDown.setVisibility(View.GONE);
-            arrow = arrowUp;
         }
 
         // we try to align the horizontal center of the anchor view and the tool tip
@@ -136,9 +153,21 @@ public class ToolTipView extends LinearLayout implements ViewTreeObserver.OnPreD
 
         setLayoutParams(layoutParams);
 
+        ImageView arrow = showAboveAnchor ? arrowDown : arrowUp;
         layoutParams = (ViewGroup.MarginLayoutParams) arrow.getLayoutParams();
         layoutParams.leftMargin = anchorHorizontalCenter - leftMargin - arrow.getWidth() / 2;
         arrow.setLayoutParams(layoutParams);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
+            setAlpha(0.0F);
+            setPivotX(anchorHorizontalCenter - leftMargin);
+            setPivotY(showAboveAnchor ? height - arrow.getHeight() : 0.0F);
+            setScaleX(0.0F);
+            setScaleY(0.0F);
+            animate().setDuration(300L).alpha(1.0F).scaleX(1.0F).scaleY(1.0F);
+        } else {
+            // TODO animation for old devices?
+        }
 
         return false;
     }
