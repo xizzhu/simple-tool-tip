@@ -27,9 +27,10 @@ public class ToolTip {
     private final int rightPadding;
     private final int topPadding;
     private final int bottomPadding;
+    private final float radius;
 
     private ToolTip(CharSequence text, int textColor, float textSize, int backgroundColor,
-                    int leftPadding, int rightPadding, int topPadding, int bottomPadding) {
+                    int leftPadding, int rightPadding, int topPadding, int bottomPadding, float radius) {
         this.text = text;
         this.textColor = textColor;
         this.textSize = textSize;
@@ -38,6 +39,7 @@ public class ToolTip {
         this.rightPadding = rightPadding;
         this.topPadding = topPadding;
         this.bottomPadding = bottomPadding;
+        this.radius = radius;
     }
 
     public CharSequence getText() {
@@ -72,6 +74,10 @@ public class ToolTip {
         return bottomPadding;
     }
 
+    public float getCornerRadius() {
+        return radius;
+    }
+
     /**
      * Used to build a tool tip.
      */
@@ -84,6 +90,7 @@ public class ToolTip {
         private int rightPadding = 0;
         private int topPadding = 0;
         private int bottomPadding = 0;
+        private float radius = 0.0F;
 
         /**
          * Creates a new builder.
@@ -135,11 +142,19 @@ public class ToolTip {
         }
 
         /**
+         * Sets the corner radius in pixel for the tool tip. The default value is 0.
+         */
+        public Builder withCornerRadius(float radius) {
+            this.radius = radius;
+            return this;
+        }
+
+        /**
          * Creates a tool tip.
          */
         public ToolTip build() {
             return new ToolTip(text, textColor, textSize, backgroundColor, leftPadding, rightPadding,
-                    topPadding, bottomPadding);
+                    topPadding, bottomPadding, radius);
         }
     }
 }

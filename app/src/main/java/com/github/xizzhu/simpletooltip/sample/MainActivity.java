@@ -73,6 +73,7 @@ public class MainActivity extends Activity {
         Resources resources = getResources();
         int padding = resources.getDimensionPixelSize(R.dimen.padding);
         int textSize = resources.getDimensionPixelSize(R.dimen.text_size);
+        int radius = resources.getDimensionPixelSize(R.dimen.radius);
 
         ToolTip toolTip = new ToolTip.Builder()
                 .withText(text)
@@ -80,6 +81,7 @@ public class MainActivity extends Activity {
                 .withTextSize(textSize)
                 .withBackgroundColor(backgroundColor)
                 .withPadding(padding, padding, padding, padding)
+                .withCornerRadius(radius)
                 .build();
         ToolTipView toolTipView = new ToolTipView.Builder(this)
                 .withAnchor(anchorView)

@@ -21,6 +21,8 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.util.TypedValue;
 import android.view.View;
@@ -54,6 +56,8 @@ public class ToolTipView extends LinearLayout implements ViewTreeObserver.OnPreD
         inflate(context, R.layout.tool_tip, this);
         setOnClickListener(this);
 
+        int backgroundColor = toolTip.getBackgroundColor();
+
         TextView text = (TextView) findViewById(R.id.text);
         text.setPadding(toolTip.getLeftPadding(), toolTip.getTopPadding(),
                 toolTip.getRightPadding(), toolTip.getBottomPadding());
@@ -61,13 +65,26 @@ public class ToolTipView extends LinearLayout implements ViewTreeObserver.OnPreD
         text.setTextColor(toolTip.getTextColor());
         text.setTextSize(TypedValue.COMPLEX_UNIT_PX, toolTip.getTextSize());
 
+        float radius = toolTip.getCornerRadius();
+        if (radius > 0.0F) {
+            GradientDrawable drawable = new GradientDrawable();
+            drawable.setColor(backgroundColor);
+            drawable.setGradientType(GradientDrawable.RECTANGLE);
+            drawable.setCornerRadius(radius);
+
+            //noinspection deprecation
+            text.setBackgroundDrawable(drawable);
+        } else {
+            text.setBackgroundColor(backgroundColor);
+        }
+
         arrowUp = (ImageView) findViewById(R.id.arrow_up);
         arrowDown = (ImageView) findViewById(R.id.arrow_down);
 
-        int backgroundColor = toolTip.getBackgroundColor();
-        text.setBackgroundColor(backgroundColor);
-        arrowUp.setColorFilter(backgroundColor, PorterDuff.Mode.MULTIPLY);
-        arrowDown.setColorFilter(backgroundColor, PorterDuff.Mode.MULTIPLY);
+        PorterDuffColorFilter colorFilter
+                = new PorterDuffColorFilter(backgroundColor, PorterDuff.Mode.MULTIPLY);
+        arrowUp.setColorFilter(colorFilter);
+        arrowDown.setColorFilter(colorFilter);
     }
 
     /**
