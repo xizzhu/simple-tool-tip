@@ -1,6 +1,10 @@
 Simple Tool Tip
 ===============
 
+A simple library to add tool tips to your awesome Android application.
+
+![Screenshot](screenshots/screenshot.png)
+
 Usage
 -------
 * You don't need anything special in your layout XML file:
