@@ -64,6 +64,10 @@ public class ToolTipView extends LinearLayout implements ViewTreeObserver.OnPreD
         arrowDown.setColorFilter(backgroundColor, PorterDuff.Mode.MULTIPLY);
     }
 
+    /**
+     * Sets a listener that will be called when the tool tip view is clicked. Note that the view only
+     * keeps a weak reference to it.
+     */
     public void setOnToolTipClickedListener(OnToolTipClickedListener listener) {
         if (listener == null) {
             this.listener = null;
@@ -72,6 +76,9 @@ public class ToolTipView extends LinearLayout implements ViewTreeObserver.OnPreD
         }
     }
 
+    /**
+     * Shows the tool tip.
+     */
     public void show() {
         ViewGroup parentOfAnchorView = (ViewGroup) anchorView.getParent();
 
@@ -82,6 +89,9 @@ public class ToolTipView extends LinearLayout implements ViewTreeObserver.OnPreD
         getViewTreeObserver().addOnPreDrawListener(this);
     }
 
+    /**
+     * Removes the tool tip view from the view hierarchy.
+     */
     public void remove() {
         ((ViewGroup) getParent()).removeView(this);
     }
@@ -143,25 +153,40 @@ public class ToolTipView extends LinearLayout implements ViewTreeObserver.OnPreD
         remove();
     }
 
+    /**
+     * Used to build a tool tip view.
+     */
     public static class Builder {
         private final Context context;
         private View anchorView;
         private ToolTip toolTip;
 
+        /**
+         * Creates a new builder.
+         */
         public Builder(Context context) {
             this.context = context;
         }
 
+        /**
+         * Sets the view that the tool tip view will try to anchor.
+         */
         public Builder withAnchor(View anchorView) {
             this.anchorView = anchorView;
             return this;
         }
 
+        /**
+         * Sets the tool tip that will be shown.
+         */
         public Builder withToolTip(ToolTip toolTip) {
             this.toolTip = toolTip;
             return this;
         }
 
+        /**
+         * Creates a tool tip view.
+         */
         public ToolTipView build() {
             return new ToolTipView(context, anchorView, toolTip);
         }

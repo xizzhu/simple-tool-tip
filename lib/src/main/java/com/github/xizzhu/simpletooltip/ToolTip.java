@@ -72,6 +72,9 @@ public class ToolTip {
         return bottomPadding;
     }
 
+    /**
+     * Used to build a tool tip.
+     */
     public static class Builder {
         private CharSequence text;
         private int textColor = Color.WHITE;
