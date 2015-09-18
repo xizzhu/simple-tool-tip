@@ -22,11 +22,13 @@ public class ToolTip {
     private final CharSequence text;
     private final int textColor;
     private final float textSize;
+    private final int backgroundColor;
 
-    private ToolTip(CharSequence text, int textColor, float textSize) {
+    private ToolTip(CharSequence text, int textColor, float textSize, int backgroundColor) {
         this.text = text;
         this.textColor = textColor;
         this.textSize = textSize;
+        this.backgroundColor = backgroundColor;
     }
 
     public CharSequence getText() {
@@ -41,10 +43,16 @@ public class ToolTip {
         return textSize;
     }
 
+    public int getBackgroundColor() {
+        return backgroundColor;
+    }
+
     public static class Builder {
         private CharSequence text;
-        private int textColor = Color.BLACK;
+        private int textColor = Color.WHITE;
         private float textSize = 13.0F;
+
+        private int backgroundColor = Color.BLACK;
 
         /**
          * Creates a new builder.
@@ -61,7 +69,7 @@ public class ToolTip {
         }
 
         /**
-         * Sets the text color for the tool tip. The default color is black.
+         * Sets the text color for the tool tip. The default color is white.
          */
         public Builder withTextColor(int textColor) {
             this.textColor = textColor;
@@ -77,10 +85,18 @@ public class ToolTip {
         }
 
         /**
+         * Sets the background color for the tool tip. The default color is black.
+         */
+        public Builder withBackgroundColor(int backgroundColor) {
+            this.backgroundColor = backgroundColor;
+            return this;
+        }
+
+        /**
          * Creates a tool tip.
          */
         public ToolTip build() {
-            return new ToolTip(text, textColor, textSize);
+            return new ToolTip(text, textColor, textSize, backgroundColor);
         }
     }
 }

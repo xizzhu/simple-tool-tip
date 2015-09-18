@@ -17,15 +17,19 @@
 package com.github.xizzhu.simpletooltip;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class ToolTipView extends LinearLayout implements ViewTreeObserver.OnPreDrawListener {
     private final View anchorView;
+    private final ImageView arrowUp;
+    private final ImageView arrowDown;
 
     private ToolTipView(Context context, View anchorView, ToolTip toolTip) {
         super(context);
@@ -39,6 +43,14 @@ public class ToolTipView extends LinearLayout implements ViewTreeObserver.OnPreD
         text.setText(toolTip.getText());
         text.setTextColor(toolTip.getTextColor());
         text.setTextSize(TypedValue.COMPLEX_UNIT_PX, toolTip.getTextSize());
+
+        arrowUp = (ImageView) findViewById(R.id.arrow_up);
+        arrowDown = (ImageView) findViewById(R.id.arrow_down);
+
+        int backgroundColor = toolTip.getBackgroundColor();
+        text.setBackgroundColor(backgroundColor);
+        arrowUp.setColorFilter(backgroundColor, PorterDuff.Mode.MULTIPLY);
+        arrowDown.setColorFilter(backgroundColor, PorterDuff.Mode.MULTIPLY);
     }
 
     public void show() {
@@ -70,19 +82,30 @@ public class ToolTipView extends LinearLayout implements ViewTreeObserver.OnPreD
 
         // if the space below the anchor view is not enough, we show the tool tip above the anchor view
         // otherwise, show it below the anchor view
+        ImageView arrow;
         if (parent.getHeight() < anchorTop + anchorHeight + height) {
-            layoutParams.topMargin = anchorTop - height;
+            layoutParams.topMargin = anchorTop - height + arrowDown.getHeight();
+            arrowUp.setVisibility(View.GONE);
+            arrowDown.setVisibility(View.VISIBLE);
+            arrow = arrowDown;
         } else {
             layoutParams.topMargin = anchorTop + anchorHeight;
+            arrowDown.setVisibility(View.GONE);
+            arrow = arrowUp;
         }
 
         // we try to align the horizontal center of the anchor view and the tool tip
         int anchorHorizontalCenter = anchorLeft + anchorWidth / 2;
         int left = anchorHorizontalCenter - width / 2;
         int right = left + width;
-        layoutParams.leftMargin = Math.max(0, right > parentWidth ? parentWidth - width : left);
+        int leftMargin = Math.max(0, right > parentWidth ? parentWidth - width : left);
+        layoutParams.leftMargin = leftMargin;
 
         setLayoutParams(layoutParams);
+
+        layoutParams = (ViewGroup.MarginLayoutParams) arrow.getLayoutParams();
+        layoutParams.leftMargin = anchorHorizontalCenter - leftMargin - arrow.getWidth() / 2;
+        arrow.setLayoutParams(layoutParams);
 
         return false;
     }

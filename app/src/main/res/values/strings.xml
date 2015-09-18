@@ -3,5 +3,9 @@
 
     <string name="app_name">Simple Tool Tip</string>
 
-    <string name="click_me">Click me!</string>
+    <string name="blue">Blue</string>
+    <string name="green">Green</string>
+    <string name="magenta">Magenta</string>
+    <string name="maroon">Maroon</string>
+    <string name="navy">Navy</string>
 </resources>
