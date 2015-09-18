@@ -40,6 +40,8 @@ public class ToolTipView extends LinearLayout implements ViewTreeObserver.OnPreD
         inflate(context, R.layout.tool_tip, this);
 
         TextView text = (TextView) findViewById(R.id.text);
+        text.setPadding(toolTip.getLeftPadding(), toolTip.getTopPadding(),
+                toolTip.getRightPadding(), toolTip.getBottomPadding());
         text.setText(toolTip.getText());
         text.setTextColor(toolTip.getTextColor());
         text.setTextSize(TypedValue.COMPLEX_UNIT_PX, toolTip.getTextSize());

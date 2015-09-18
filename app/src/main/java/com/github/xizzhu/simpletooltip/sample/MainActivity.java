@@ -17,6 +17,7 @@
 package com.github.xizzhu.simpletooltip.sample;
 
 import android.app.Activity;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -67,11 +68,16 @@ public class MainActivity extends Activity {
             return;
         }
 
+        Resources resources = getResources();
+        int padding = resources.getDimensionPixelSize(R.dimen.padding);
+        int textSize = resources.getDimensionPixelSize(R.dimen.text_size);
+
         ToolTip toolTip = new ToolTip.Builder()
                 .withText(text)
                 .withTextColor(Color.WHITE)
-                .withTextSize(26.0F)
+                .withTextSize(textSize)
                 .withBackgroundColor(backgroundColor)
+                .withPadding(padding, padding, padding, padding)
                 .build();
         ToolTipView toolTipView = new ToolTipView.Builder(this)
                 .withAnchor(anchorView)
