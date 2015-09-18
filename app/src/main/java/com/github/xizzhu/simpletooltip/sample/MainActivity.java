@@ -17,6 +17,42 @@
 package com.github.xizzhu.simpletooltip.sample;
 
 import android.app.Activity;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.view.View;
 
-public class MainActivity extends Activity {
+import com.github.xizzhu.simpletooltip.ToolTip;
+import com.github.xizzhu.simpletooltip.ToolTipView;
+
+public class MainActivity extends Activity implements View.OnClickListener {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.activity_main);
+        findViewById(R.id.top_left_button).setOnClickListener(this);
+        findViewById(R.id.top_right_button).setOnClickListener(this);
+        findViewById(R.id.central_button).setOnClickListener(this);
+        findViewById(R.id.bottom_left_button).setOnClickListener(this);
+        findViewById(R.id.bottom_right_button).setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getTag() != null) {
+            return;
+        }
+
+        ToolTip toolTip = new ToolTip.Builder()
+                .withText("It is just a very simple tool tip!")
+                .withTextColor(Color.WHITE)
+                .withTextSize(26.0F)
+                .build();
+        ToolTipView toolTipView = new ToolTipView.Builder(this)
+                .withAnchor(v)
+                .withToolTip(toolTip)
+                .build();
+        toolTipView.show();
+        v.setTag(toolTipView);
+    }
 }

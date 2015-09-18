@@ -2,4 +2,6 @@
 <resources>
 
     <string name="app_name">Simple Tool Tip</string>
+
+    <string name="click_me">Click me!</string>
 </resources>
