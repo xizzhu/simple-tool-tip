@@ -3,6 +3,8 @@ Simple Tool Tip
 
 A simple library to add tool tips to your awesome Android application.
 
+[![Build Status](https://api.travis-ci.org/xizzhu/simple-tool-tip.svg?branch=master)](https://travis-ci.org/xizzhu/simple-tool-tip)
+
 ![Screenshot](screenshots/screenshot.png)
 
 Usage
