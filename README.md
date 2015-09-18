@@ -1,4 +1,47 @@
 Simple Tool Tip
+===============
+
+Usage
+-------
+* You don't need anything special in your layout XML file:
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Click Me!" />
+</FrameLayout>
+```
+* Then in your Java code:
+```java
+public class MainActivity extends Activity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.activity_main);
+        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToolTip toolTip = new ToolTip.Builder()
+                    .withText("Simple Tool Tip!")
+                    .build();
+                ToolTipView toolTipView = new ToolTipView.Builder(this)
+                    .withAnchor(v)
+                    .withToolTip(toolTip)
+                    .build();
+                toolTipView.show();
+            }
+        });
+    }
+}
+```
+* To customize your `ToolTipView`, check the `ToolTip.Builder` class for more details.
 
 License
 -------
