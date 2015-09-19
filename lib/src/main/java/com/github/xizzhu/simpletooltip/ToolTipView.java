@@ -24,6 +24,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
+import android.support.annotation.UiThread;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -110,6 +111,7 @@ public class ToolTipView extends LinearLayout implements ViewTreeObserver.OnPreD
     /**
      * Shows the tool tip.
      */
+    @UiThread
     public void show() {
         ViewGroup parentOfAnchorView = (ViewGroup) anchorView.getParent();
 
@@ -123,6 +125,7 @@ public class ToolTipView extends LinearLayout implements ViewTreeObserver.OnPreD
     /**
      * Removes the tool tip view from the view hierarchy.
      */
+    @UiThread
     public void remove() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
             setPivotX(pivotX);
@@ -273,6 +276,7 @@ public class ToolTipView extends LinearLayout implements ViewTreeObserver.OnPreD
         /**
          * Creates a tool tip view.
          */
+        @UiThread
         public ToolTipView build() {
             return new ToolTipView(context, anchorView, toolTip);
         }

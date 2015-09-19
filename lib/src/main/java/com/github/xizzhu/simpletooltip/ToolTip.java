@@ -17,6 +17,7 @@
 package com.github.xizzhu.simpletooltip;
 
 import android.graphics.Color;
+import android.support.annotation.ColorInt;
 
 public class ToolTip {
     private final CharSequence text;
@@ -46,6 +47,7 @@ public class ToolTip {
         return text;
     }
 
+    @ColorInt
     public int getTextColor() {
         return textColor;
     }
@@ -54,6 +56,7 @@ public class ToolTip {
         return textSize;
     }
 
+    @ColorInt
     public int getBackgroundColor() {
         return backgroundColor;
     }
@@ -109,7 +112,7 @@ public class ToolTip {
         /**
          * Sets the text color for the tool tip. The default color is white.
          */
-        public Builder withTextColor(int textColor) {
+        public Builder withTextColor(@ColorInt int textColor) {
             this.textColor = textColor;
             return this;
         }
@@ -125,7 +128,7 @@ public class ToolTip {
         /**
          * Sets the background color for the tool tip. The default color is black.
          */
-        public Builder withBackgroundColor(int backgroundColor) {
+        public Builder withBackgroundColor(@ColorInt int backgroundColor) {
             this.backgroundColor = backgroundColor;
             return this;
         }
