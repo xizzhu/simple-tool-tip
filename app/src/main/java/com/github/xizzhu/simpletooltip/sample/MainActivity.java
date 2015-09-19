@@ -19,6 +19,8 @@ package com.github.xizzhu.simpletooltip.sample;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -27,6 +29,8 @@ import com.github.xizzhu.simpletooltip.ToolTip;
 import com.github.xizzhu.simpletooltip.ToolTipView;
 
 public class MainActivity extends AppCompatActivity {
+    private final Handler handler = new Handler(Looper.getMainLooper());
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +71,14 @@ public class MainActivity extends AppCompatActivity {
                         ContextCompat.getColor(MainActivity.this, R.color.navy));
             }
         });
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                showToolTipView(findViewById(R.id.central_button), "A simple tool tip!",
+                        ContextCompat.getColor(MainActivity.this, R.color.magenta));
+            }
+        }, 750L);
     }
 
     private void showToolTipView(final View anchorView, CharSequence text, int backgroundColor) {
