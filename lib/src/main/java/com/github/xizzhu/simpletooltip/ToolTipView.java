@@ -29,6 +29,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.ViewTreeObserver;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -42,10 +46,14 @@ public class ToolTipView extends LinearLayout implements ViewTreeObserver.OnPreD
         void onToolTipClicked(ToolTipView toolTipView);
     }
 
+    private static final long ANIMATION_DURATION = 300L;
+
     private final View anchorView;
     private final ImageView arrowUp;
     private final ImageView arrowDown;
     private WeakReference<OnToolTipClickedListener> listener;
+    private float pivotX;
+    private float pivotY;
 
     private ToolTipView(Context context, View anchorView, ToolTip toolTip) {
         super(context);
@@ -117,18 +125,44 @@ public class ToolTipView extends LinearLayout implements ViewTreeObserver.OnPreD
      */
     public void remove() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
-            animate().setDuration(300L).alpha(0.0F).scaleX(0.0F).scaleY(0.0F)
+            setPivotX(pivotX);
+            setPivotY(pivotY);
+            animate().setDuration(ANIMATION_DURATION).alpha(0.0F).scaleX(0.0F).scaleY(0.0F)
                     .setListener(new AnimatorListenerAdapter() {
                         @Override
                         public void onAnimationEnd(Animator animation) {
-                            ViewParent parent = getParent();
-                            if (parent != null) {
-                                ((ViewGroup) parent).removeView(ToolTipView.this);
-                            }
+                            removeFromParent();
                         }
                     });
         } else {
-            // TODO animation for old devices?
+            AnimationSet animationSet = new AnimationSet(true);
+            animationSet.setDuration(ANIMATION_DURATION);
+            animationSet.addAnimation(new AlphaAnimation(1.0F, 0.0F));
+            animationSet.addAnimation(new ScaleAnimation(1.0F, 0.0F, 1.0F, 0.0F, pivotX, pivotY));
+            animationSet.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                    // do nothing
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    removeFromParent();
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+                    // do nothing
+                }
+            });
+            startAnimation(animationSet);
+        }
+    }
+
+    private void removeFromParent() {
+        ViewParent parent = getParent();
+        if (parent != null) {
+            ((ViewGroup) parent).removeView(this);
         }
     }
 
@@ -175,15 +209,21 @@ public class ToolTipView extends LinearLayout implements ViewTreeObserver.OnPreD
         layoutParams.leftMargin = anchorHorizontalCenter - leftMargin - arrow.getWidth() / 2;
         arrow.setLayoutParams(layoutParams);
 
+        pivotX = anchorHorizontalCenter - leftMargin;
+        pivotY = showAboveAnchor ? height - arrow.getHeight() : 0.0F;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
             setAlpha(0.0F);
-            setPivotX(anchorHorizontalCenter - leftMargin);
-            setPivotY(showAboveAnchor ? height - arrow.getHeight() : 0.0F);
+            setPivotX(pivotX);
+            setPivotY(pivotY);
             setScaleX(0.0F);
             setScaleY(0.0F);
-            animate().setDuration(300L).alpha(1.0F).scaleX(1.0F).scaleY(1.0F);
+            animate().setDuration(ANIMATION_DURATION).alpha(1.0F).scaleX(1.0F).scaleY(1.0F);
         } else {
-            // TODO animation for old devices?
+            AnimationSet animationSet = new AnimationSet(true);
+            animationSet.setDuration(ANIMATION_DURATION);
+            animationSet.addAnimation(new AlphaAnimation(0.0F, 1.0F));
+            animationSet.addAnimation(new ScaleAnimation(0.0F, 1.0F, 0.0F, 1.0F, pivotX, pivotY));
+            startAnimation(animationSet);
         }
 
         return false;
