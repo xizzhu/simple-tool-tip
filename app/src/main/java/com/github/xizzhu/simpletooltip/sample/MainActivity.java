@@ -19,6 +19,7 @@ package com.github.xizzhu.simpletooltip.sample;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
@@ -34,31 +35,36 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.top_left_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showToolTipView(v, "It is a very simple tool tip!", getResources().getColor(R.color.blue));
+                showToolTipView(v, "It is a very simple tool tip!",
+                        ContextCompat.getColor(MainActivity.this, R.color.blue));
             }
         });
         findViewById(R.id.top_right_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showToolTipView(v, "It is yet another very simple tool tip!", getResources().getColor(R.color.green));
+                showToolTipView(v, "It is yet another very simple tool tip!",
+                        ContextCompat.getColor(MainActivity.this, R.color.green));
             }
         });
         findViewById(R.id.central_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showToolTipView(v, "It is a very simple tool tip in the center!", getResources().getColor(R.color.magenta));
+                showToolTipView(v, "It is a very simple tool tip in the center!",
+                        ContextCompat.getColor(MainActivity.this, R.color.magenta));
             }
         });
         findViewById(R.id.bottom_left_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showToolTipView(v, "Tool tip, once more!", getResources().getColor(R.color.maroon));
+                showToolTipView(v, "Tool tip, once more!",
+                        ContextCompat.getColor(MainActivity.this, R.color.maroon));
             }
         });
         findViewById(R.id.bottom_right_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showToolTipView(v, "Magical tool tip!", getResources().getColor(R.color.navy));
+                showToolTipView(v, "Magical tool tip!",
+                        ContextCompat.getColor(MainActivity.this, R.color.navy));
             }
         });
     }
