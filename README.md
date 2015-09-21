@@ -16,7 +16,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.xizzhu:simple-tool-tip:0.1.0'
+    compile 'com.github.xizzhu:simple-tool-tip:0.2.0'
 }
 ```
 * Maven: Add the following to your `pom.xml`:
@@ -29,7 +29,7 @@ dependencies {
 <dependency>
     <groupId>com.github.xizzhu</groupId>
     <artifactId>simple-tool-tip</artifactId>
-    <version>0.1.0</version>
+    <version>0.2.0</version>
 </dependency>
 ```
 
