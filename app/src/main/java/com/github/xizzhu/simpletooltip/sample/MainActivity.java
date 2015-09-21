@@ -24,6 +24,8 @@ import android.os.Looper;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
+import android.widget.FrameLayout;
 
 import com.github.xizzhu.simpletooltip.ToolTip;
 import com.github.xizzhu.simpletooltip.ToolTipView;
@@ -72,6 +74,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showToolTipViewWithParent((Button) v);
+            }
+        };
+        findViewById(R.id.button1).setOnClickListener(listener);
+        findViewById(R.id.button2).setOnClickListener(listener);
+        findViewById(R.id.button3).setOnClickListener(listener);
+        findViewById(R.id.button4).setOnClickListener(listener);
+        findViewById(R.id.button5).setOnClickListener(listener);
+        findViewById(R.id.button6).setOnClickListener(listener);
+        findViewById(R.id.button7).setOnClickListener(listener);
+
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -103,6 +119,44 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         ToolTipView toolTipView = new ToolTipView.Builder(this)
                 .withAnchor(anchorView)
+                .withToolTip(toolTip)
+                .build();
+        toolTipView.show();
+        anchorView.setTag(toolTipView);
+
+        ToolTipView.OnToolTipClickedListener listener = new ToolTipView.OnToolTipClickedListener() {
+            @Override
+            public void onToolTipClicked(ToolTipView toolTipView) {
+                anchorView.setTag(null);
+            }
+        };
+        toolTipView.setOnToolTipClickedListener(listener);
+        toolTipView.setTag(listener); // prevent it from being GC'ed
+    }
+
+    private void showToolTipViewWithParent(final Button anchorView) {
+        if (anchorView.getTag() != null) {
+            ((ToolTipView) anchorView.getTag()).remove();
+            anchorView.setTag(null);
+            return;
+        }
+
+        Resources resources = getResources();
+        int padding = resources.getDimensionPixelSize(R.dimen.padding);
+        int textSize = resources.getDimensionPixelSize(R.dimen.text_size);
+        int radius = resources.getDimensionPixelSize(R.dimen.radius);
+
+        ToolTip toolTip = new ToolTip.Builder()
+                .withText("Tool tip for " + anchorView.getText())
+                .withTextColor(Color.WHITE)
+                .withTextSize(textSize)
+                .withBackgroundColor(Color.BLACK)
+                .withPadding(padding, padding, padding, padding)
+                .withCornerRadius(radius)
+                .build();
+        ToolTipView toolTipView = new ToolTipView.Builder(this)
+                .withAnchor(anchorView)
+                .withParent((FrameLayout) findViewById(R.id.tool_tip_view_holder))
                 .withToolTip(toolTip)
                 .build();
         toolTipView.show();

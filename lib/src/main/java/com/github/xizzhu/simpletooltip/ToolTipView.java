@@ -50,16 +50,18 @@ public class ToolTipView extends LinearLayout implements ViewTreeObserver.OnPreD
     private static final long ANIMATION_DURATION = 300L;
 
     private final View anchorView;
+    private final ViewGroup parentView;
     private final ImageView arrowUp;
     private final ImageView arrowDown;
     private WeakReference<OnToolTipClickedListener> listener;
     private float pivotX;
     private float pivotY;
 
-    private ToolTipView(Context context, View anchorView, ToolTip toolTip) {
+    private ToolTipView(Context context, View anchorView, ViewGroup parentView, ToolTip toolTip) {
         super(context);
 
         this.anchorView = anchorView;
+        this.parentView = parentView != null ? parentView : (ViewGroup) anchorView.getParent();
 
         setOrientation(VERTICAL);
         inflate(context, R.layout.tool_tip, this);
@@ -113,11 +115,9 @@ public class ToolTipView extends LinearLayout implements ViewTreeObserver.OnPreD
      */
     @UiThread
     public void show() {
-        ViewGroup parentOfAnchorView = (ViewGroup) anchorView.getParent();
-
         ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        parentOfAnchorView.addView(this, layoutParams);
+        parentView.addView(this, layoutParams);
 
         getViewTreeObserver().addOnPreDrawListener(this);
     }
@@ -248,6 +248,7 @@ public class ToolTipView extends LinearLayout implements ViewTreeObserver.OnPreD
     public static class Builder {
         private final Context context;
         private View anchorView;
+        private ViewGroup parentView;
         private ToolTip toolTip;
 
         /**
@@ -266,6 +267,18 @@ public class ToolTipView extends LinearLayout implements ViewTreeObserver.OnPreD
         }
 
         /**
+         * Sets the parent view for the tool tip view. Otherwise, the tool tip view will added to
+         * the parent view of the anchor view.
+         *
+         * This is useful when the anchor view is a sub view of e.g. a LinearLayout. Note that it
+         * assumes the parent view has the same size as the parent view of the anchor view.
+         */
+        public Builder withParent(ViewGroup parentView) {
+            this.parentView = parentView;
+            return this;
+        }
+
+        /**
          * Sets the tool tip that will be shown.
          */
         public Builder withToolTip(ToolTip toolTip) {
@@ -278,7 +291,7 @@ public class ToolTipView extends LinearLayout implements ViewTreeObserver.OnPreD
          */
         @UiThread
         public ToolTipView build() {
-            return new ToolTipView(context, anchorView, toolTip);
+            return new ToolTipView(context, anchorView, parentView, toolTip);
         }
     }
 }
