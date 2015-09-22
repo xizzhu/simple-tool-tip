@@ -93,6 +93,42 @@ public class MainActivity extends AppCompatActivity {
         showToolTipView(anchorView, text, backgroundColor, 0L);
     }
 
+    private void showToolTipViewWithParent(final Button anchorView) {
+        showToolTipView(anchorView, (FrameLayout) findViewById(R.id.tool_tip_view_holder),
+                "Tool tip for " + anchorView.getText(), Color.BLACK, 0L);
+    }
+
+    private void showToolTipView(final View anchorView, CharSequence text, int backgroundColor, long delay) {
+        showToolTipView(anchorView, null, text, backgroundColor, delay);
+    }
+
+    private void showToolTipView(final View anchorView, ViewGroup parentView,
+                                 CharSequence text, int backgroundColor, long delay) {
+        if (anchorView.getTag() != null) {
+            ((ToolTipView) anchorView.getTag()).remove();
+            anchorView.setTag(null);
+            return;
+        }
+
+        ToolTip toolTip = createToolTip(text, backgroundColor);
+        ToolTipView toolTipView = createToolTipView(toolTip, anchorView, parentView);
+        if (delay > 0L) {
+            toolTipView.showDelayed(delay);
+        } else {
+            toolTipView.show();
+        }
+        anchorView.setTag(toolTipView);
+
+        ToolTipView.OnToolTipClickedListener listener = new ToolTipView.OnToolTipClickedListener() {
+            @Override
+            public void onToolTipClicked(ToolTipView toolTipView) {
+                anchorView.setTag(null);
+            }
+        };
+        toolTipView.setOnToolTipClickedListener(listener);
+        toolTipView.setTag(listener); // prevent it from being GC'ed
+    }
+
     private ToolTip createToolTip(CharSequence text, int backgroundColor) {
         Resources resources = getResources();
         int padding = resources.getDimensionPixelSize(R.dimen.padding);
@@ -114,54 +150,5 @@ public class MainActivity extends AppCompatActivity {
                 .withParent(parentView)
                 .withToolTip(toolTip)
                 .build();
-    }
-
-    private void showToolTipViewWithParent(final Button anchorView) {
-        if (anchorView.getTag() != null) {
-            ((ToolTipView) anchorView.getTag()).remove();
-            anchorView.setTag(null);
-            return;
-        }
-
-        ToolTip toolTip = createToolTip("Tool tip for " + anchorView.getText(), Color.BLACK);
-        ToolTipView toolTipView = createToolTipView(toolTip, anchorView,
-                (FrameLayout) findViewById(R.id.tool_tip_view_holder));
-        toolTipView.show();
-        anchorView.setTag(toolTipView);
-
-        ToolTipView.OnToolTipClickedListener listener = new ToolTipView.OnToolTipClickedListener() {
-            @Override
-            public void onToolTipClicked(ToolTipView toolTipView) {
-                anchorView.setTag(null);
-            }
-        };
-        toolTipView.setOnToolTipClickedListener(listener);
-        toolTipView.setTag(listener); // prevent it from being GC'ed
-    }
-
-    private void showToolTipView(final View anchorView, CharSequence text, int backgroundColor, long delay) {
-        if (anchorView.getTag() != null) {
-            ((ToolTipView) anchorView.getTag()).remove();
-            anchorView.setTag(null);
-            return;
-        }
-
-        ToolTip toolTip = createToolTip(text, backgroundColor);
-        ToolTipView toolTipView = createToolTipView(toolTip, anchorView, null);
-        if (delay > 0L) {
-            toolTipView.showDelayed(delay);
-        } else {
-            toolTipView.show();
-        }
-        anchorView.setTag(toolTipView);
-
-        ToolTipView.OnToolTipClickedListener listener = new ToolTipView.OnToolTipClickedListener() {
-            @Override
-            public void onToolTipClicked(ToolTipView toolTipView) {
-                anchorView.setTag(null);
-            }
-        };
-        toolTipView.setOnToolTipClickedListener(listener);
-        toolTipView.setTag(listener); // prevent it from being GC'ed
     }
 }
