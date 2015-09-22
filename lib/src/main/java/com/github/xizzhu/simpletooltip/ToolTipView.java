@@ -26,6 +26,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.UiThread;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,9 +74,15 @@ public class ToolTipView extends LinearLayout implements ViewTreeObserver.OnPreD
         TextView text = (TextView) findViewById(R.id.text);
         text.setPadding(toolTip.getLeftPadding(), toolTip.getTopPadding(),
                 toolTip.getRightPadding(), toolTip.getBottomPadding());
-        text.setText(toolTip.getText());
         text.setTextColor(toolTip.getTextColor());
         text.setTextSize(TypedValue.COMPLEX_UNIT_PX, toolTip.getTextSize());
+
+        CharSequence txt = toolTip.getText();
+        if (TextUtils.isEmpty(txt)) {
+            text.setText(toolTip.getTextResourceId());
+        } else {
+            text.setText(txt);
+        }
 
         float radius = toolTip.getCornerRadius();
         if (radius > 0.0F) {

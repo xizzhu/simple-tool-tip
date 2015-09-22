@@ -18,8 +18,13 @@ package com.github.xizzhu.simpletooltip;
 
 import android.graphics.Color;
 import android.support.annotation.ColorInt;
+import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 
 public class ToolTip {
+    @StringRes
+    private final int textResourceId;
+    @Nullable
     private final CharSequence text;
     private final int textColor;
     private final float textSize;
@@ -30,8 +35,10 @@ public class ToolTip {
     private final int bottomPadding;
     private final float radius;
 
-    private ToolTip(CharSequence text, int textColor, float textSize, int backgroundColor,
-                    int leftPadding, int rightPadding, int topPadding, int bottomPadding, float radius) {
+    private ToolTip(@StringRes int textResourceId, @Nullable CharSequence text, int textColor,
+                    float textSize, int backgroundColor, int leftPadding, int rightPadding,
+                    int topPadding, int bottomPadding, float radius) {
+        this.textResourceId = textResourceId;
         this.text = text;
         this.textColor = textColor;
         this.textSize = textSize;
@@ -43,6 +50,12 @@ public class ToolTip {
         this.radius = radius;
     }
 
+    @StringRes
+    public int getTextResourceId() {
+        return textResourceId;
+    }
+
+    @Nullable
     public CharSequence getText() {
         return text;
     }
@@ -85,6 +98,8 @@ public class ToolTip {
      * Used to build a tool tip.
      */
     public static class Builder {
+        @StringRes
+        private int textResourceId = 0;
         private CharSequence text;
         private int textColor = Color.WHITE;
         private float textSize = 13.0F;
@@ -102,7 +117,17 @@ public class ToolTip {
         }
 
         /**
-         * Sets the text of the tool tip.
+         * Sets the text of the tool tip. If both the resource ID and the char sequence are set, the
+         * char sequence will be used.
+         */
+        public Builder withText(@StringRes int text) {
+            this.textResourceId = text;
+            return this;
+        }
+
+        /**
+         * Sets the text of the tool tip. If both the resource ID and the char sequence are set, the
+         * char sequence will be used.
          */
         public Builder withText(CharSequence text) {
             this.text = text;
@@ -156,8 +181,8 @@ public class ToolTip {
          * Creates a tool tip.
          */
         public ToolTip build() {
-            return new ToolTip(text, textColor, textSize, backgroundColor, leftPadding, rightPadding,
-                    topPadding, bottomPadding, radius);
+            return new ToolTip(textResourceId, text, textColor, textSize, backgroundColor,
+                    leftPadding, rightPadding, topPadding, bottomPadding, radius);
         }
     }
 }
