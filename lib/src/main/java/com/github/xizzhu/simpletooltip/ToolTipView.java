@@ -24,6 +24,8 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.annotation.UiThread;
 import android.text.TextUtils;
@@ -128,6 +130,18 @@ public class ToolTipView extends LinearLayout implements ViewTreeObserver.OnPreD
         parentView.addView(this, layoutParams);
 
         getViewTreeObserver().addOnPreDrawListener(this);
+    }
+
+    /**
+     * Shows the tool tip with the specified delay.
+     */
+    public void showDelayed(long milliSeconds) {
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                show();
+            }
+        }, milliSeconds);
     }
 
     /**

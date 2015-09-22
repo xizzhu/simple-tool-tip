@@ -19,11 +19,10 @@ package com.github.xizzhu.simpletooltip.sample;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
@@ -31,8 +30,6 @@ import com.github.xizzhu.simpletooltip.ToolTip;
 import com.github.xizzhu.simpletooltip.ToolTipView;
 
 public class MainActivity extends AppCompatActivity {
-    private final Handler handler = new Handler(Looper.getMainLooper());
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,28 +85,20 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.button6).setOnClickListener(listener);
         findViewById(R.id.button7).setOnClickListener(listener);
 
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                showToolTipView(findViewById(R.id.central_button), "A simple tool tip!",
-                        ContextCompat.getColor(MainActivity.this, R.color.magenta));
-            }
-        }, 750L);
+        showToolTipView(findViewById(R.id.central_button), "A simple tool tip!",
+                ContextCompat.getColor(MainActivity.this, R.color.magenta), 750L);
     }
 
-    private void showToolTipView(final View anchorView, CharSequence text, int backgroundColor) {
-        if (anchorView.getTag() != null) {
-            ((ToolTipView) anchorView.getTag()).remove();
-            anchorView.setTag(null);
-            return;
-        }
+    private void showToolTipView(View anchorView, CharSequence text, int backgroundColor) {
+        showToolTipView(anchorView, text, backgroundColor, 0L);
+    }
 
+    private ToolTip createToolTip(CharSequence text, int backgroundColor) {
         Resources resources = getResources();
         int padding = resources.getDimensionPixelSize(R.dimen.padding);
         int textSize = resources.getDimensionPixelSize(R.dimen.text_size);
         int radius = resources.getDimensionPixelSize(R.dimen.radius);
-
-        ToolTip toolTip = new ToolTip.Builder()
+        return new ToolTip.Builder()
                 .withText(text)
                 .withTextColor(Color.WHITE)
                 .withTextSize(textSize)
@@ -117,10 +106,26 @@ public class MainActivity extends AppCompatActivity {
                 .withPadding(padding, padding, padding, padding)
                 .withCornerRadius(radius)
                 .build();
-        ToolTipView toolTipView = new ToolTipView.Builder(this)
+    }
+
+    private ToolTipView createToolTipView(ToolTip toolTip, View anchorView, ViewGroup parentView) {
+        return new ToolTipView.Builder(this)
                 .withAnchor(anchorView)
+                .withParent(parentView)
                 .withToolTip(toolTip)
                 .build();
+    }
+
+    private void showToolTipViewWithParent(final Button anchorView) {
+        if (anchorView.getTag() != null) {
+            ((ToolTipView) anchorView.getTag()).remove();
+            anchorView.setTag(null);
+            return;
+        }
+
+        ToolTip toolTip = createToolTip("Tool tip for " + anchorView.getText(), Color.BLACK);
+        ToolTipView toolTipView = createToolTipView(toolTip, anchorView,
+                (FrameLayout) findViewById(R.id.tool_tip_view_holder));
         toolTipView.show();
         anchorView.setTag(toolTipView);
 
@@ -134,32 +139,20 @@ public class MainActivity extends AppCompatActivity {
         toolTipView.setTag(listener); // prevent it from being GC'ed
     }
 
-    private void showToolTipViewWithParent(final Button anchorView) {
+    private void showToolTipView(final View anchorView, CharSequence text, int backgroundColor, long delay) {
         if (anchorView.getTag() != null) {
             ((ToolTipView) anchorView.getTag()).remove();
             anchorView.setTag(null);
             return;
         }
 
-        Resources resources = getResources();
-        int padding = resources.getDimensionPixelSize(R.dimen.padding);
-        int textSize = resources.getDimensionPixelSize(R.dimen.text_size);
-        int radius = resources.getDimensionPixelSize(R.dimen.radius);
-
-        ToolTip toolTip = new ToolTip.Builder()
-                .withText("Tool tip for " + anchorView.getText())
-                .withTextColor(Color.WHITE)
-                .withTextSize(textSize)
-                .withBackgroundColor(Color.BLACK)
-                .withPadding(padding, padding, padding, padding)
-                .withCornerRadius(radius)
-                .build();
-        ToolTipView toolTipView = new ToolTipView.Builder(this)
-                .withAnchor(anchorView)
-                .withParent((FrameLayout) findViewById(R.id.tool_tip_view_holder))
-                .withToolTip(toolTip)
-                .build();
-        toolTipView.show();
+        ToolTip toolTip = createToolTip(text, backgroundColor);
+        ToolTipView toolTipView = createToolTipView(toolTip, anchorView, null);
+        if (delay > 0L) {
+            toolTipView.showDelayed(delay);
+        } else {
+            toolTipView.show();
+        }
         anchorView.setTag(toolTipView);
 
         ToolTipView.OnToolTipClickedListener listener = new ToolTipView.OnToolTipClickedListener() {
