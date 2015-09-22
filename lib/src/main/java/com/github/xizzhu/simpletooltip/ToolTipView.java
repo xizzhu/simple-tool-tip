@@ -24,6 +24,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
+import android.support.annotation.Nullable;
 import android.support.annotation.UiThread;
 import android.util.TypedValue;
 import android.view.View;
@@ -57,7 +58,7 @@ public class ToolTipView extends LinearLayout implements ViewTreeObserver.OnPreD
     private float pivotX;
     private float pivotY;
 
-    private ToolTipView(Context context, View anchorView, ViewGroup parentView, ToolTip toolTip) {
+    private ToolTipView(Context context, View anchorView, @Nullable ViewGroup parentView, ToolTip toolTip) {
         super(context);
 
         this.anchorView = anchorView;
@@ -269,7 +270,7 @@ public class ToolTipView extends LinearLayout implements ViewTreeObserver.OnPreD
         /**
          * Sets the parent view for the tool tip view. Otherwise, the tool tip view will added to
          * the parent view of the anchor view.
-         *
+         * <p/>
          * This is useful when the anchor view is a sub view of e.g. a LinearLayout. Note that it
          * assumes the parent view has the same size as the parent view of the anchor view.
          */
