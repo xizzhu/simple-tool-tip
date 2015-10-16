@@ -66,6 +66,7 @@ public class MainActivity extends Activity {
                 ToolTipView toolTipView = new ToolTipView.Builder(this)
                     .withAnchor(v)
                     .withToolTip(toolTip)
+                    .withGravity(Gravity.BOTTOM)
                     .build();
                 toolTipView.show();
             }

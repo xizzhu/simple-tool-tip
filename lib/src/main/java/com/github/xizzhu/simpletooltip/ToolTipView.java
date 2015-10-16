@@ -366,7 +366,7 @@ public class ToolTipView extends LinearLayout implements ViewTreeObserver.OnPreD
         /**
          * Sets the tool tip gravity.
          */
-        public Builder gravity(int gravity) {
+        public Builder withGravity(int gravity) {
             this.gravity = gravity;
             return this;
         }

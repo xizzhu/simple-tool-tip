@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
                 .withAnchor(anchorView)
                 .withParent(parentView)
                 .withToolTip(toolTip)
-                .gravity(gravity)
+                .withGravity(gravity)
                 .build();
     }
 }
