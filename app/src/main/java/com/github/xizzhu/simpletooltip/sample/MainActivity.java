@@ -39,22 +39,21 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.top_left_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showToolTipView(v, Gravity.RIGHT, "It is a very simple tool tip!",
+                showToolTipView(v, Gravity.RIGHT, "Simple tool tip!",
                         ContextCompat.getColor(MainActivity.this, R.color.blue));
             }
         });
         findViewById(R.id.top_right_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showToolTipView(v, Gravity.LEFT, "It is yet another very simple tool tip!\n" +
-                                "Test test",
+                showToolTipView(v, Gravity.BOTTOM, "It is yet another very simple tool tip!",
                         ContextCompat.getColor(MainActivity.this, R.color.green));
             }
         });
         findViewById(R.id.central_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showToolTipView(v, Gravity.BOTTOM, "It is a very simple tool tip in the center!\nTest test",
+                showToolTipView(v, Gravity.RIGHT, "It is a very simple tool tip in the center!",
                         ContextCompat.getColor(MainActivity.this, R.color.magenta));
             }
         });
