@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.bottom_left_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showToolTipView(v, Gravity.RIGHT, "Tool tip, once more!",
+                showToolTipView(v, Gravity.TOP, "Tool tip, once more!",
                         ContextCompat.getColor(MainActivity.this, R.color.maroon));
             }
         });
