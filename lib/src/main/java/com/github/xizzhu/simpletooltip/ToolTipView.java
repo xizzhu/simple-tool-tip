@@ -326,7 +326,7 @@ public class ToolTipView extends LinearLayout implements ViewTreeObserver.OnPreD
         private View anchorView;
         private ViewGroup parentView;
         private ToolTip toolTip;
-        private int gravity;
+        private int gravity = Gravity.BOTTOM;
 
         /**
          * Creates a new builder.
@@ -364,7 +364,7 @@ public class ToolTipView extends LinearLayout implements ViewTreeObserver.OnPreD
         }
 
         /**
-         * Sets the tool tip gravity.
+         * Sets the tool tip gravity. By default, it will be anchored to bottom of the anchor view.
          */
         public Builder withGravity(int gravity) {
             this.gravity = gravity;
