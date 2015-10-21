@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.central_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showToolTipView(v, Gravity.RIGHT, "It is a very simple tool tip in the center!",
+                showToolTipView(v, Gravity.END, "It is a very simple tool tip in the center!",
                         ContextCompat.getColor(MainActivity.this, R.color.magenta));
             }
         });
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.button6).setOnClickListener(listener);
         findViewById(R.id.button7).setOnClickListener(listener);
 
-        showToolTipView(findViewById(R.id.central_button), Gravity.LEFT, "A simple tool tip!",
+        showToolTipView(findViewById(R.id.central_button), Gravity.START, "A simple tool tip!",
                 ContextCompat.getColor(MainActivity.this, R.color.magenta), 750L);
     }
 

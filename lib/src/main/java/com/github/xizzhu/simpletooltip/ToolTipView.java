@@ -52,6 +52,9 @@ public class ToolTipView extends LinearLayout implements ViewTreeObserver.OnPreD
         void onToolTipClicked(ToolTipView toolTipView);
     }
 
+    private static final int GRAVITY_START = 0x00800003;
+    private static final int GRAVITY_END = 0x00800005;
+
     private static final long ANIMATION_DURATION = 300L;
 
     private final View anchorView;
@@ -365,6 +368,9 @@ public class ToolTipView extends LinearLayout implements ViewTreeObserver.OnPreD
 
         /**
          * Sets the tool tip gravity. By default, it will be anchored to bottom of the anchor view.
+         * <p/>
+         * Only the following are supported: Gravity.TOP, Gravity.BOTTOM, Gravity.LEFT, Gravity.RIGHT,
+         * Gravity.START, and Gravity.END.
          */
         public Builder withGravity(int gravity) {
             this.gravity = gravity;
@@ -376,6 +382,19 @@ public class ToolTipView extends LinearLayout implements ViewTreeObserver.OnPreD
          */
         @UiThread
         public ToolTipView build() {
+            if (gravity == GRAVITY_START || gravity == GRAVITY_END) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1
+                        && anchorView.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
+                    gravity = gravity == GRAVITY_START ? Gravity.RIGHT : Gravity.LEFT;
+                } else {
+                    gravity &= Gravity.HORIZONTAL_GRAVITY_MASK;
+                }
+            }
+            if (gravity != Gravity.TOP && gravity != Gravity.BOTTOM
+                    && gravity != Gravity.LEFT && gravity != Gravity.RIGHT) {
+                throw new IllegalArgumentException("Unsupported gravity - " + gravity);
+            }
+
             return new ToolTipView(context, anchorView, parentView, gravity, toolTip);
         }
     }
