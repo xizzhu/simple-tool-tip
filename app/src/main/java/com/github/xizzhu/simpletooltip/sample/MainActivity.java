@@ -120,14 +120,12 @@ public class MainActivity extends AppCompatActivity {
         }
         anchorView.setTag(toolTipView);
 
-        ToolTipView.OnToolTipClickedListener listener = new ToolTipView.OnToolTipClickedListener() {
+        toolTipView.setOnToolTipClickedListener(new ToolTipView.OnToolTipClickedListener() {
             @Override
             public void onToolTipClicked(ToolTipView toolTipView) {
                 anchorView.setTag(null);
             }
-        };
-        toolTipView.setOnToolTipClickedListener(listener);
-        toolTipView.setTag(listener); // prevent it from being GC'ed
+        });
     }
 
     private ToolTip createToolTip(CharSequence text, int backgroundColor) {

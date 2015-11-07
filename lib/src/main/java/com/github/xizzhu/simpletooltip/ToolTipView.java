@@ -43,8 +43,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.lang.ref.WeakReference;
-
 @SuppressLint("ViewConstructor")
 public class ToolTipView extends LinearLayout implements ViewTreeObserver.OnPreDrawListener,
         View.OnClickListener {
@@ -63,7 +61,7 @@ public class ToolTipView extends LinearLayout implements ViewTreeObserver.OnPreD
     private final ImageView arrow;
     private final int gravity;
 
-    private WeakReference<OnToolTipClickedListener> listener;
+    private OnToolTipClickedListener listener;
     private float pivotX;
     private float pivotY;
 
@@ -138,15 +136,10 @@ public class ToolTipView extends LinearLayout implements ViewTreeObserver.OnPreD
     }
 
     /**
-     * Sets a listener that will be called when the tool tip view is clicked. Note that the view only
-     * keeps a weak reference to it.
+     * Sets a listener that will be called when the tool tip view is clicked.
      */
     public void setOnToolTipClickedListener(OnToolTipClickedListener listener) {
-        if (listener == null) {
-            this.listener = null;
-        } else {
-            this.listener = new WeakReference<>(listener);
-        }
+        this.listener = listener;
     }
 
     /**
@@ -313,7 +306,6 @@ public class ToolTipView extends LinearLayout implements ViewTreeObserver.OnPreD
 
     @Override
     public void onClick(View v) {
-        OnToolTipClickedListener listener = this.listener != null ? this.listener.get() : null;
         if (listener != null) {
             listener.onToolTipClicked(this);
         }
