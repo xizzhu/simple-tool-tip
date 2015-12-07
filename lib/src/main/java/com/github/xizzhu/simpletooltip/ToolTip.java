@@ -17,7 +17,9 @@
 package com.github.xizzhu.simpletooltip;
 
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.annotation.ColorInt;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 
@@ -28,6 +30,8 @@ public class ToolTip {
     private final CharSequence text;
     private final int textColor;
     private final float textSize;
+    private final Typeface typeface;
+    private final int typefaceStyle;
     private final int backgroundColor;
     private final int leftPadding;
     private final int rightPadding;
@@ -36,12 +40,15 @@ public class ToolTip {
     private final float radius;
 
     private ToolTip(@StringRes int textResourceId, @Nullable CharSequence text, int textColor,
-                    float textSize, int backgroundColor, int leftPadding, int rightPadding,
-                    int topPadding, int bottomPadding, float radius) {
+                    float textSize, Typeface typeface, int typefaceStyle, int backgroundColor,
+                    int leftPadding, int rightPadding, int topPadding, int bottomPadding,
+                    float radius) {
         this.textResourceId = textResourceId;
         this.text = text;
         this.textColor = textColor;
         this.textSize = textSize;
+        this.typeface = typeface;
+        this.typefaceStyle = typefaceStyle;
         this.backgroundColor = backgroundColor;
         this.leftPadding = leftPadding;
         this.rightPadding = rightPadding;
@@ -67,6 +74,15 @@ public class ToolTip {
 
     public float getTextSize() {
         return textSize;
+    }
+
+    @NonNull
+    public Typeface getTypeface() {
+        return typeface;
+    }
+
+    public int getTypefaceStyle() {
+        return typefaceStyle;
     }
 
     @ColorInt
@@ -103,6 +119,8 @@ public class ToolTip {
         private CharSequence text;
         private int textColor = Color.WHITE;
         private float textSize = 13.0F;
+        private Typeface typeface = Typeface.DEFAULT;
+        private int typefaceStyle = Typeface.NORMAL;
         private int backgroundColor = Color.BLACK;
         private int leftPadding = 0;
         private int rightPadding = 0;
@@ -151,6 +169,24 @@ public class ToolTip {
         }
 
         /**
+         * Sets the typeface for the tool tip. The default value is {@link Typeface.DEFAULT}.
+         */
+        public Builder withTypeface(Typeface typeface) {
+            if (typeface != null) {
+                this.typeface = typeface;
+            }
+            return this;
+        }
+
+        /**
+         * Sets the typeface style for the tool tip. The default value is {@link Typeface.NORMAL}.
+         */
+        public Builder withTypefaceStyle(int style) {
+            this.typefaceStyle = style;
+            return this;
+        }
+
+        /**
          * Sets the background color for the tool tip. The default color is black.
          */
         public Builder withBackgroundColor(@ColorInt int backgroundColor) {
@@ -181,8 +217,8 @@ public class ToolTip {
          * Creates a tool tip.
          */
         public ToolTip build() {
-            return new ToolTip(textResourceId, text, textColor, textSize, backgroundColor,
-                    leftPadding, rightPadding, topPadding, bottomPadding, radius);
+            return new ToolTip(textResourceId, text, textColor, textSize, typeface, typefaceStyle,
+                    backgroundColor, leftPadding, rightPadding, topPadding, bottomPadding, radius);
         }
     }
 }
