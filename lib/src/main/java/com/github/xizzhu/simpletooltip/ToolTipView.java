@@ -220,6 +220,9 @@ public class ToolTipView extends LinearLayout implements ViewTreeObserver.OnPreD
         getViewTreeObserver().removeOnPreDrawListener(this);
 
         View parent = (View) getParent();
+        if (parent == null) {
+            return false;
+        }
         int parentWidth = parent.getWidth();
         int parentHeight = parent.getHeight();
 
