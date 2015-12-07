@@ -80,6 +80,7 @@ public class ToolTipView extends LinearLayout implements ViewTreeObserver.OnPreD
         text = new TextView(context);
         text.setPadding(toolTip.getLeftPadding(), toolTip.getTopPadding(),
                 toolTip.getRightPadding(), toolTip.getBottomPadding());
+        text.setGravity(toolTip.getTextGravity());
         text.setTextColor(toolTip.getTextColor());
         text.setTextSize(TypedValue.COMPLEX_UNIT_PX, toolTip.getTextSize());
         text.setTypeface(toolTip.getTypeface(), toolTip.getTypefaceStyle());

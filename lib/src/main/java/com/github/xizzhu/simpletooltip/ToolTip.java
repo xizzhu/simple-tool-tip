@@ -22,12 +22,14 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.view.Gravity;
 
 public class ToolTip {
     @StringRes
     private final int textResourceId;
     @Nullable
     private final CharSequence text;
+    private final int textGravity;
     private final int textColor;
     private final float textSize;
     private final Typeface typeface;
@@ -39,12 +41,13 @@ public class ToolTip {
     private final int bottomPadding;
     private final float radius;
 
-    private ToolTip(@StringRes int textResourceId, @Nullable CharSequence text, int textColor,
-                    float textSize, Typeface typeface, int typefaceStyle, int backgroundColor,
-                    int leftPadding, int rightPadding, int topPadding, int bottomPadding,
-                    float radius) {
+    private ToolTip(@StringRes int textResourceId, @Nullable CharSequence text, int textGravity,
+                    int textColor, float textSize, Typeface typeface, int typefaceStyle,
+                    int backgroundColor, int leftPadding, int rightPadding, int topPadding,
+                    int bottomPadding, float radius) {
         this.textResourceId = textResourceId;
         this.text = text;
+        this.textGravity = textGravity;
         this.textColor = textColor;
         this.textSize = textSize;
         this.typeface = typeface;
@@ -65,6 +68,10 @@ public class ToolTip {
     @Nullable
     public CharSequence getText() {
         return text;
+    }
+
+    public int getTextGravity() {
+        return textGravity;
     }
 
     @ColorInt
@@ -117,6 +124,7 @@ public class ToolTip {
         @StringRes
         private int textResourceId = 0;
         private CharSequence text;
+        private int textGravity = Gravity.NO_GRAVITY;
         private int textColor = Color.WHITE;
         private float textSize = 13.0F;
         private Typeface typeface = Typeface.DEFAULT;
@@ -149,6 +157,14 @@ public class ToolTip {
          */
         public Builder withText(CharSequence text) {
             this.text = text;
+            return this;
+        }
+
+        /**
+         * Sets the text gravity of the tool tip. The default value is {@link Gravity.NO_GRAVITY}.
+         */
+        public Builder withTextGravity(int gravity) {
+            this.textGravity = gravity;
             return this;
         }
 
@@ -217,8 +233,9 @@ public class ToolTip {
          * Creates a tool tip.
          */
         public ToolTip build() {
-            return new ToolTip(textResourceId, text, textColor, textSize, typeface, typefaceStyle,
-                    backgroundColor, leftPadding, rightPadding, topPadding, bottomPadding, radius);
+            return new ToolTip(textResourceId, text, textGravity, textColor, textSize, typeface,
+                    typefaceStyle, backgroundColor, leftPadding, rightPadding, topPadding,
+                    bottomPadding, radius);
         }
     }
 }
