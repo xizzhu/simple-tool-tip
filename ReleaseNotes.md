@@ -1,4 +1,5 @@
 #### Future Release
+- Supported setting lines for tooltip.
 - Updated tooling:
   - Updated Gradle to 2.11.
   - Updated Support Library to 23.2.0.

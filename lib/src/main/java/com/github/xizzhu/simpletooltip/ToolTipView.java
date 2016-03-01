@@ -85,6 +85,12 @@ public class ToolTipView extends LinearLayout implements ViewTreeObserver.OnPreD
         text.setTextSize(TypedValue.COMPLEX_UNIT_PX, toolTip.getTextSize());
         text.setTypeface(toolTip.getTypeface(), toolTip.getTypefaceStyle());
 
+        int lines = toolTip.getLines();
+        if (lines > 0) {
+            text.setLines(lines);
+            text.setEllipsize(TextUtils.TruncateAt.END);
+        }
+
         CharSequence txt = toolTip.getText();
         if (TextUtils.isEmpty(txt)) {
             text.setText(toolTip.getTextResourceId());

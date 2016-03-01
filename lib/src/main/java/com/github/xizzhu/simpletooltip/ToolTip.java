@@ -34,6 +34,7 @@ public class ToolTip {
     private final float textSize;
     private final Typeface typeface;
     private final int typefaceStyle;
+    private final int lines;
     private final int backgroundColor;
     private final int leftPadding;
     private final int rightPadding;
@@ -43,8 +44,8 @@ public class ToolTip {
 
     private ToolTip(@StringRes int textResourceId, @Nullable CharSequence text, int textGravity,
                     int textColor, float textSize, Typeface typeface, int typefaceStyle,
-                    int backgroundColor, int leftPadding, int rightPadding, int topPadding,
-                    int bottomPadding, float radius) {
+                    int lines, int backgroundColor, int leftPadding, int rightPadding,
+                    int topPadding, int bottomPadding, float radius) {
         this.textResourceId = textResourceId;
         this.text = text;
         this.textGravity = textGravity;
@@ -52,6 +53,7 @@ public class ToolTip {
         this.textSize = textSize;
         this.typeface = typeface;
         this.typefaceStyle = typefaceStyle;
+        this.lines = lines;
         this.backgroundColor = backgroundColor;
         this.leftPadding = leftPadding;
         this.rightPadding = rightPadding;
@@ -92,6 +94,10 @@ public class ToolTip {
         return typefaceStyle;
     }
 
+    public int getLines() {
+        return lines;
+    }
+
     @ColorInt
     public int getBackgroundColor() {
         return backgroundColor;
@@ -129,6 +135,7 @@ public class ToolTip {
         private float textSize = 13.0F;
         private Typeface typeface = Typeface.DEFAULT;
         private int typefaceStyle = Typeface.NORMAL;
+        private int lines = 0;
         private int backgroundColor = Color.BLACK;
         private int leftPadding = 0;
         private int rightPadding = 0;
@@ -203,6 +210,14 @@ public class ToolTip {
         }
 
         /**
+         * Sets the exact lines for the tool tip. The default value is unset.
+         * */
+        public Builder withLines(int lines) {
+            this.lines = lines;
+            return this;
+        }
+
+        /**
          * Sets the background color for the tool tip. The default color is black.
          */
         public Builder withBackgroundColor(@ColorInt int backgroundColor) {
@@ -234,7 +249,7 @@ public class ToolTip {
          */
         public ToolTip build() {
             return new ToolTip(textResourceId, text, textGravity, textColor, textSize, typeface,
-                    typefaceStyle, backgroundColor, leftPadding, rightPadding, topPadding,
+                    typefaceStyle, lines, backgroundColor, leftPadding, rightPadding, topPadding,
                     bottomPadding, radius);
         }
     }
