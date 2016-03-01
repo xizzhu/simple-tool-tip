@@ -1,3 +1,8 @@
+#### Future Release
+- Updated tooling:
+  - Updated Gradle to 2.11.
+  - Updated Support Library to 23.2.0.
+
 #### 0.5.0 (2015-12-07)
 - Supported tool tip text gravity and type face.
 - Bug fix:

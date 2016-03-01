@@ -8,13 +8,13 @@ buildscript {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.9'
+    gradleVersion = '2.11'
 }
 
 ext {
     compileSdkVersion = 23
     buildToolsVersion = '23.0.2'
-    supportLibraryVersion = '23.1.1'
+    supportLibraryVersion = '23.2.0'
 
     minSdkVersion = 8
     targetSdkVersion = 23
