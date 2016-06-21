@@ -23,9 +23,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 
 import com.github.xizzhu.simpletooltip.ToolTip;
 import com.github.xizzhu.simpletooltip.ToolTipView;
@@ -75,7 +73,8 @@ public class MainActivity extends AppCompatActivity {
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showToolTipViewWithParent((Button) v, Gravity.BOTTOM);
+                showToolTipViewWithParent((Button) v,
+                        v.getId() == R.id.button1 ? Gravity.TOP : Gravity.BOTTOM);
             }
         };
         findViewById(R.id.button1).setOnClickListener(listener);
@@ -86,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.button6).setOnClickListener(listener);
         findViewById(R.id.button7).setOnClickListener(listener);
 
-        showToolTipView(findViewById(R.id.central_button), Gravity.START, "A simple tool tip!",
+        showToolTipView(findViewById(R.id.central_button), Gravity.START, "A simple but considerably long tool tip!",
                 ContextCompat.getColor(MainActivity.this, R.color.magenta), 750L);
     }
 
@@ -95,16 +94,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showToolTipViewWithParent(final Button anchorView, int gravity) {
-        showToolTipView(anchorView, (FrameLayout) findViewById(R.id.tool_tip_view_holder), gravity,
-                "Tool tip for " + anchorView.getText(), Color.BLACK, 0L);
+        showToolTipView(anchorView, gravity, "Tool tip for " + anchorView.getText(), Color.BLACK, 0L);
     }
 
     private void showToolTipView(final View anchorView, int gravity, CharSequence text, int backgroundColor, long delay) {
-        showToolTipView(anchorView, null, gravity, text, backgroundColor, delay);
-    }
-
-    private void showToolTipView(final View anchorView, ViewGroup parentView, int gravity,
-                                 CharSequence text, int backgroundColor, long delay) {
         if (anchorView.getTag() != null) {
             ((ToolTipView) anchorView.getTag()).remove();
             anchorView.setTag(null);
@@ -112,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         ToolTip toolTip = createToolTip(text, backgroundColor);
-        ToolTipView toolTipView = createToolTipView(toolTip, anchorView, parentView, gravity);
+        ToolTipView toolTipView = createToolTipView(toolTip, anchorView, gravity);
         if (delay > 0L) {
             toolTipView.showDelayed(delay);
         } else {
@@ -143,10 +136,9 @@ public class MainActivity extends AppCompatActivity {
                 .build();
     }
 
-    private ToolTipView createToolTipView(ToolTip toolTip, View anchorView, ViewGroup parentView, int gravity) {
+    private ToolTipView createToolTipView(ToolTip toolTip, View anchorView, int gravity) {
         return new ToolTipView.Builder(this)
                 .withAnchor(anchorView)
-                .withParent(parentView)
                 .withToolTip(toolTip)
                 .withGravity(gravity)
                 .build();
