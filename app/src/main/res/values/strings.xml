@@ -3,6 +3,8 @@
 
     <string name="app_name">Simple Tool Tip</string>
 
+    <string name="menu_item">Menu Item</string>
+
     <string name="blue">Blue</string>
     <string name="green">Green</string>
     <string name="magenta">Magenta</string>

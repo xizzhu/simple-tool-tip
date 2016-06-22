@@ -21,6 +21,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -70,6 +71,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.app_name);
+        toolbar.setTitleTextColor(Color.WHITE);
+        toolbar.inflateMenu(R.menu.menu_main);
+        View menuItem = findViewById(R.id.menu_item);
+        showToolTipView(menuItem, Gravity.BOTTOM, "A simple but considerably long tool tip for menu item!",
+                ContextCompat.getColor(this, R.color.magenta), 750L);
+
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,9 +93,6 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.button5).setOnClickListener(listener);
         findViewById(R.id.button6).setOnClickListener(listener);
         findViewById(R.id.button7).setOnClickListener(listener);
-
-        showToolTipView(findViewById(R.id.central_button), Gravity.START, "A simple but considerably long tool tip!",
-                ContextCompat.getColor(MainActivity.this, R.color.magenta), 750L);
     }
 
     private void showToolTipView(View anchorView, int gravity, CharSequence text, int backgroundColor) {
