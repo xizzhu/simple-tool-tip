@@ -2,14 +2,9 @@
 .idea
 *.iml
 
-# Gradle
-.gradle
-gradle
-gradle.properties
-
 # Android Studio
 local.properties
-gradlew*
+.gradle
 
 # Build Artifacts
 build
