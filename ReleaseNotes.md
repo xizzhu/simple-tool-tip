@@ -1,8 +1,13 @@
 #### Future Release
+
+#### 0.6.0 (2016-06-27)
 - Supported setting lines for tooltip.
+- Used PopupWindow to implement tooltip.
 - Updated tooling:
-  - Updated Gradle to 2.11.
-  - Updated Support Library to 23.2.0.
+  - Updated Gradle to 2.14.
+  - Updated Android Gradle plugin to 2.1.2.
+  - Updated build tool to 23.0.3.
+  - Updated Support Library to 23.4.0.
 
 #### 0.5.0 (2015-12-07)
 - Supported tool tip text gravity and type face.
