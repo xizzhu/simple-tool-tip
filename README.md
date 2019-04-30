@@ -3,7 +3,10 @@ Simple Tool Tip
 
 A simple library to add tool tips to your awesome Android application.
 
-[![Build Status](https://api.travis-ci.org/xizzhu/simple-tool-tip.svg?branch=master)](https://travis-ci.org/xizzhu/simple-tool-tip) [![API](https://img.shields.io/badge/API-8%2B-green.svg?style=flat)](https://developer.android.com/about/versions/android-2.2.html) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-simple--tool--tip-green.svg?style=flat)](https://android-arsenal.com/details/1/2526) [![Release](https://img.shields.io/github/release/xizzhu/simple-tool-tip.svg?label=maven central)](https://jitpack.io/#xizzhu/simple-tool-tip)
+[![Build Status](https://api.travis-ci.org/xizzhu/simple-tool-tip.svg?branch=master)](https://travis-ci.org/xizzhu/simple-tool-tip)
+[![API](https://img.shields.io/badge/API-14%2B-green.svg?style=flat)](https://developer.android.com/about/versions/android-4.0.html)
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-simple--tool--tip-green.svg?style=flat)](https://android-arsenal.com/details/1/2526)
+[![JitPack](https://img.shields.io/jitpack/v/github/xizzhu/simple-tool-tip.svg)](https://jitpack.io/#xizzhu/simple-tool-tip)
 
 ![Screenshot](screenshots/screenshot.png)
 
