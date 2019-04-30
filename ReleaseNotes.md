@@ -1,4 +1,10 @@
 #### Future Release
+- Migrated to AndroidX.
+  - Updated min SDK to 14.
+- Updated tooling:
+  - Updated Gradle to 5.4.1.
+  - Updated Android Gradle plugin to 3.4.0.
+  - Updated build tool to 28.0.3.
 
 #### 0.6.0 (2016-06-27)
 - Supported setting lines for tooltip.

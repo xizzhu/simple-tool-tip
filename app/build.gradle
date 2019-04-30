@@ -34,6 +34,6 @@ android {
 }
 
 dependencies {
-    compile project(':lib')
-    compile 'com.android.support:appcompat-v7:' + rootProject.ext.supportLibraryVersion
+    implementation project(':lib')
+    implementation "androidx.appcompat:appcompat:$rootProject.ext.androidXAppCompatVersion"
 }
