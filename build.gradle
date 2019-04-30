@@ -1,23 +1,20 @@
 buildscript {
     repositories {
         mavenCentral()
+        google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.2'
+        classpath 'com.android.tools.build:gradle:3.4.0'
     }
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '2.14'
 }
 
 ext {
-    compileSdkVersion = 23
-    buildToolsVersion = '23.0.3'
-    supportLibraryVersion = '23.4.0'
+    compileSdkVersion = 28
+    buildToolsVersion = '28.0.3'
+    //supportLibraryVersion = '23.4.0'
 
     minSdkVersion = 8
-    targetSdkVersion = 23
+    targetSdkVersion = 28
 
     versionName = '0.6.1'
     versionCode = 601
