@@ -1,19 +1,30 @@
 buildscript {
     repositories {
-        mavenCentral()
         google()
+        mavenCentral()
+        jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.4.0'
     }
 }
 
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        jcenter()
+    }
+}
+
 ext {
     compileSdkVersion = 28
     buildToolsVersion = '28.0.3'
-    //supportLibraryVersion = '23.4.0'
 
-    minSdkVersion = 8
+    androidXAnnotationVersion = '1.0.1'
+    androidXAppCompatVersion = '1.0.2'
+
+    minSdkVersion = 14
     targetSdkVersion = 28
 
     versionName = '0.6.1'

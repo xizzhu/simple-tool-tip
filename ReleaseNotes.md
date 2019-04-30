@@ -1,4 +1,6 @@
 #### Future Release
+- Migrated to AndroidX.
+  - Updated min SDK to 14.
 - Updated tooling:
   - Updated Gradle to 5.4.1.
   - Updated Android Gradle plugin to 3.4.0.
