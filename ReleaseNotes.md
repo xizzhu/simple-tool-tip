@@ -1,4 +1,7 @@
 #### Future Release
+
+#### 0.7.0 (2019-04-30)
+- Added more validation in builder
 - Migrated to AndroidX.
   - Updated min SDK to 14.
 - Updated tooling:
