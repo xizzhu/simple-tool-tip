@@ -382,6 +382,16 @@ public class ToolTipView implements ViewTreeObserver.OnPreDrawListener, View.OnC
          */
         @UiThread
         public ToolTipView build() {
+            if (context == null) {
+                throw new IllegalArgumentException("Missing context");
+            }
+            if (anchorView == null) {
+                throw new IllegalArgumentException("Missing anchor");
+            }
+            if (toolTip == null) {
+                throw new IllegalArgumentException("Missing tooltip");
+            }
+
             if (gravity == GRAVITY_START || gravity == GRAVITY_END) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1
                         && anchorView.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
