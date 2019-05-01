@@ -34,10 +34,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -106,7 +102,7 @@ public class ToolTipView implements ViewTreeObserver.OnPreDrawListener, View.OnC
             drawable.setGradientType(GradientDrawable.RECTANGLE);
             drawable.setCornerRadius(radius);
 
-            //noinspection deprecation
+            //noinspection
             text.setBackgroundDrawable(drawable);
         } else {
             text.setBackgroundColor(backgroundColor);
@@ -180,39 +176,15 @@ public class ToolTipView implements ViewTreeObserver.OnPreDrawListener, View.OnC
      */
     @UiThread
     public void remove() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
-            container.setPivotX(pivotX);
-            container.setPivotY(pivotY);
-            container.animate().setDuration(ANIMATION_DURATION).alpha(0.0F).scaleX(0.0F).scaleY(0.0F)
-                    .setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            popupWindow.dismiss();
-                        }
-                    });
-        } else {
-            AnimationSet animationSet = new AnimationSet(true);
-            animationSet.setDuration(ANIMATION_DURATION);
-            animationSet.addAnimation(new AlphaAnimation(1.0F, 0.0F));
-            animationSet.addAnimation(new ScaleAnimation(1.0F, 0.0F, 1.0F, 0.0F, pivotX, pivotY));
-            animationSet.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-                    // do nothing
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    popupWindow.dismiss();
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-                    // do nothing
-                }
-            });
-            container.startAnimation(animationSet);
-        }
+        container.setPivotX(pivotX);
+        container.setPivotY(pivotY);
+        container.animate().setDuration(ANIMATION_DURATION).alpha(0.0F).scaleX(0.0F).scaleY(0.0F)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        popupWindow.dismiss();
+                    }
+                });
     }
 
     @Override
@@ -307,20 +279,12 @@ public class ToolTipView implements ViewTreeObserver.OnPreDrawListener, View.OnC
             pivotY = anchorVerticalCenter;
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
-            container.setAlpha(0.0F);
-            container.setPivotX(pivotX);
-            container.setPivotY(pivotY);
-            container.setScaleX(0.0F);
-            container.setScaleY(0.0F);
-            container.animate().setDuration(ANIMATION_DURATION).alpha(1.0F).scaleX(1.0F).scaleY(1.0F);
-        } else {
-            AnimationSet animationSet = new AnimationSet(true);
-            animationSet.setDuration(ANIMATION_DURATION);
-            animationSet.addAnimation(new AlphaAnimation(0.0F, 1.0F));
-            animationSet.addAnimation(new ScaleAnimation(0.0F, 1.0F, 0.0F, 1.0F, pivotX, pivotY));
-            container.startAnimation(animationSet);
-        }
+        container.setAlpha(0.0F);
+        container.setPivotX(pivotX);
+        container.setPivotY(pivotY);
+        container.setScaleX(0.0F);
+        container.setScaleY(0.0F);
+        container.animate().setDuration(ANIMATION_DURATION).alpha(1.0F).scaleX(1.0F).scaleY(1.0F);
 
         return false;
     }
