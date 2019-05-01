@@ -79,22 +79,20 @@ public class ToolTipView implements ViewTreeObserver.OnPreDrawListener, View.OnC
         text.setTextSize(TypedValue.COMPLEX_UNIT_PX, toolTip.getTextSize());
         text.setTypeface(toolTip.getTypeface(), toolTip.getTypefaceStyle());
 
-        int lines = toolTip.getLines();
+        final int lines = toolTip.getLines();
         if (lines > 0) {
             text.setLines(lines);
             text.setEllipsize(TextUtils.TruncateAt.END);
         }
 
-        CharSequence txt = toolTip.getText();
-        if (TextUtils.isEmpty(txt)) {
-            txt = context.getString(toolTip.getTextResourceId());
-        }
+        final CharSequence txt = TextUtils.isEmpty(toolTip.getText())
+                ? context.getString(toolTip.getTextResourceId()) : toolTip.getText();
         text.setText(txt);
 
-        int backgroundColor = toolTip.getBackgroundColor();
-        float radius = toolTip.getCornerRadius();
+        final int backgroundColor = toolTip.getBackgroundColor();
+        final float radius = toolTip.getCornerRadius();
         if (radius > 0.0F) {
-            GradientDrawable drawable = new GradientDrawable();
+            final GradientDrawable drawable = new GradientDrawable();
             drawable.setColor(backgroundColor);
             drawable.setGradientType(GradientDrawable.RECTANGLE);
             drawable.setCornerRadius(radius);
@@ -188,37 +186,37 @@ public class ToolTipView implements ViewTreeObserver.OnPreDrawListener, View.OnC
     public boolean onPreDraw() {
         container.getViewTreeObserver().removeOnPreDrawListener(this);
 
-        Context context = container.getContext();
+        final Context context = container.getContext();
         if (!(context instanceof Activity)) {
             return false;
         }
-        DisplayMetrics displayMetrics = new DisplayMetrics();
+        final DisplayMetrics displayMetrics = new DisplayMetrics();
         ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        int displayWidth = displayMetrics.widthPixels;
-        int displayHeight = displayMetrics.heightPixels;
+        final int displayWidth = displayMetrics.widthPixels;
+        final int displayHeight = displayMetrics.heightPixels;
 
-        Rect rect = new Rect();
+        final Rect rect = new Rect();
         anchorView.getWindowVisibleDisplayFrame(rect);
-        int statusBarHeight = rect.top;
+        final int statusBarHeight = rect.top;
 
-        int[] location = new int[2];
+        final int[] location = new int[2];
         anchorView.getLocationInWindow(location);
-        int anchorTop = location[1] - statusBarHeight;
-        int anchorLeft = location[0];
-        int anchorWidth = anchorView.getWidth();
-        int anchorHeight = anchorView.getHeight();
+        final int anchorTop = location[1] - statusBarHeight;
+        final int anchorLeft = location[0];
+        final int anchorWidth = anchorView.getWidth();
+        final int anchorHeight = anchorView.getHeight();
 
-        int textWidth = text.getWidth();
-        int textHeight = text.getHeight();
-        int arrowWidth = arrow.getWidth();
-        int arrowHeight = arrow.getHeight();
+        final int textWidth = text.getWidth();
+        final int textHeight = text.getHeight();
+        final int arrowWidth = arrow.getWidth();
+        final int arrowHeight = arrow.getHeight();
 
         if (gravity == Gravity.TOP || gravity == Gravity.BOTTOM) {
-            int width = Math.max(textWidth, arrowWidth);
-            int height = textHeight + arrowHeight;
+            final int width = Math.max(textWidth, arrowWidth);
+            final int height = textHeight + arrowHeight;
 
-            int leftPadding;
-            int topPadding;
+            final int leftPadding;
+            final int topPadding;
 
             if (gravity == Gravity.TOP) {
                 topPadding = anchorTop - height;
@@ -227,14 +225,14 @@ public class ToolTipView implements ViewTreeObserver.OnPreDrawListener, View.OnC
                 topPadding = anchorTop + anchorHeight;
             }
 
-            int anchorHorizontalCenter = anchorLeft + anchorWidth / 2;
-            int left = anchorHorizontalCenter - width / 2;
-            int right = left + width;
+            final int anchorHorizontalCenter = anchorLeft + anchorWidth / 2;
+            final int left = anchorHorizontalCenter - width / 2;
+            final int right = left + width;
             leftPadding = Math.max(0, right > displayWidth ? displayWidth - width : left);
 
             container.setPadding(leftPadding, topPadding, 0, 0);
 
-            ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) arrow.getLayoutParams();
+            final ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) arrow.getLayoutParams();
             layoutParams.leftMargin = anchorHorizontalCenter - leftPadding - arrowWidth / 2;
             arrow.setLayoutParams(layoutParams);
 
@@ -243,12 +241,12 @@ public class ToolTipView implements ViewTreeObserver.OnPreDrawListener, View.OnC
         } else {
             // gravity == Gravity.LEFT || gravity == Gravity.RIGHT
 
-            int width = textWidth + arrowWidth;
-            int height = Math.max(textHeight, arrowHeight);
+            final int width = textWidth + arrowWidth;
+            final int height = Math.max(textHeight, arrowHeight);
 
-            int leftPadding;
-            int topPadding;
-            int rightPadding;
+            final int leftPadding;
+            final int topPadding;
+            final int rightPadding;
 
             if (gravity == Gravity.LEFT) {
                 leftPadding = Math.max(0, anchorLeft - width);
@@ -261,14 +259,14 @@ public class ToolTipView implements ViewTreeObserver.OnPreDrawListener, View.OnC
                 rightPadding = 0;
             }
 
-            int anchorVerticalCenter = anchorTop + anchorHeight / 2;
-            int top = anchorVerticalCenter - height / 2;
-            int bottom = top + height;
+            final int anchorVerticalCenter = anchorTop + anchorHeight / 2;
+            final int top = anchorVerticalCenter - height / 2;
+            final int bottom = top + height;
             topPadding = Math.max(0, bottom > displayHeight ? displayHeight - height : top);
 
             container.setPadding(leftPadding, topPadding, rightPadding, 0);
 
-            ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) arrow.getLayoutParams();
+            final ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) arrow.getLayoutParams();
             layoutParams.topMargin = anchorVerticalCenter - topPadding - arrowHeight / 2;
             arrow.setLayoutParams(layoutParams);
 
