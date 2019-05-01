@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showToolTipViewWithParent((Button) v,
-                        v.getId() == R.id.button1 ? Gravity.TOP : Gravity.BOTTOM);
+                        v.getId() == R.id.button1 || v.getId() == R.id.button7 ? Gravity.TOP : Gravity.BOTTOM);
             }
         };
         findViewById(R.id.button1).setOnClickListener(listener);
