@@ -47,9 +47,6 @@ public class ToolTipView implements ViewTreeObserver.OnPreDrawListener, View.OnC
         void onToolTipClicked(ToolTipView toolTipView);
     }
 
-    private static final int GRAVITY_START = 0x00800003;
-    private static final int GRAVITY_END = 0x00800005;
-
     private static final long ANIMATION_DURATION = 300L;
 
     private final View anchorView;
@@ -356,10 +353,10 @@ public class ToolTipView implements ViewTreeObserver.OnPreDrawListener, View.OnC
                 throw new IllegalArgumentException("Missing tooltip");
             }
 
-            if (gravity == GRAVITY_START || gravity == GRAVITY_END) {
+            if (gravity == Gravity.START || gravity == Gravity.END) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1
                         && anchorView.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
-                    gravity = gravity == GRAVITY_START ? Gravity.RIGHT : Gravity.LEFT;
+                    gravity = gravity == Gravity.START ? Gravity.RIGHT : Gravity.LEFT;
                 } else {
                     gravity &= Gravity.HORIZONTAL_GRAVITY_MASK;
                 }
