@@ -169,7 +169,7 @@ public class ToolTip {
         }
 
         /**
-         * Sets the text gravity of the tool tip. The default value is {@link Gravity.NO_GRAVITY}.
+         * Sets the text gravity of the tool tip. The default value is {@link Gravity#NO_GRAVITY}.
          */
         public Builder withTextGravity(int gravity) {
             this.textGravity = gravity;
@@ -193,7 +193,7 @@ public class ToolTip {
         }
 
         /**
-         * Sets the typeface for the tool tip. The default value is {@link Typeface.DEFAULT}.
+         * Sets the typeface for the tool tip. The default value is {@link Typeface#DEFAULT}.
          */
         public Builder withTypeface(Typeface typeface) {
             if (typeface != null) {
@@ -203,7 +203,7 @@ public class ToolTip {
         }
 
         /**
-         * Sets the typeface style for the tool tip. The default value is {@link Typeface.NORMAL}.
+         * Sets the typeface style for the tool tip. The default value is {@link Typeface#NORMAL}.
          */
         public Builder withTypefaceStyle(int style) {
             this.typefaceStyle = style;
